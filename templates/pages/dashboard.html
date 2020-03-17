@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head_title %}{% block page_title %}
+Dashboard | Django Allauth
+{% endblock %}{% endblock %}
+
+
+{% block content %}
+
+<!-- Content Row -->
+<div class="row">
+    <div class="col-md 12">
+        <h1>Django Allauth - Dashboard</h1>
+        <hr>
+        <h4>
+            For More Details and configuration, Please visit
+            <a href="https://django-allauth.readthedocs.io/en/latest/overview.html" target="_blank">
+                here
+            </a>
+        </h4>
+
+        {% if not request.user.is_superuser %}
+        <div class="alert alert-warning" role="alert">
+            <b>
+                Please Log in as Super User to 
+                <span class="text-success">Add More User</span>
+            </b>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

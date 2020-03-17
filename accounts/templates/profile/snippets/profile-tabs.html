@@ -1,0 +1,33 @@
+{% url 'profile_details' slug=object.slug as profile_details_url %}
+{% url 'profile_update' slug=request.user.profile.slug as profile_update_url %}
+
+<div class="nav flex-column nav-pills nav-secondary nav-pills-no-bd nav-pills-icons" role="tablist"
+    aria-orientation="vertical">
+    <a class="nav-link {% if request.path == profile_details_url %}active show{% endif %}"
+        href="{{ profile_details_url }}">
+        <i class="fa fa-user"></i>
+        Profile
+    </a>
+    {% if object.user == request.user %}
+    <a class="nav-link {% if request.path == profile_update_url %}active show{% endif %}"
+        href="{{ profile_update_url }}">
+        <i class="fa fa-user-edit"></i>
+        Update Profile
+    </a>
+    {% endif %}
+</div>
+<div class="">
+    {% if object.user == request.user %}
+    <a href="{% url 'account_change_password' %}" class="btn btn-default btn-sm text-deco-none bg-sky-black m-1">
+        <i class="fa fa-edit"></i>
+        Change Password
+    </a>
+    <br>
+    {% endif %}
+    {% if object.user == request.user %}
+    <a href="{% url 'account_email' %}" class="btn btn-default btn-sm text-deco-none bg-sky-black m-1">
+        <i class="fa fa-envelope"></i>
+        Manage Email
+    </a>
+    {% endif %}
+</div>

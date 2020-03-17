@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load i18n %}
+
+{% block head_title %}{% block page_title %}
+{% if object.user == request.user %}
+My Profile
+{% else %}
+{{object.get_dynamic_name}}'s Profile
+{% endif %}
+{% endblock %}{% endblock %}
+
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title text-center">
+            <span class="">Profile Details</span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                {% include 'profile/snippets/profile-tabs.html' %}
+            </div>
+
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+
+                <ul class="nav nav-pills nav-secondary  nav-pills-no-bd nav-pills-icons justify-content-center"
+                    id="pills-tab-with-icon" role="tablist">
+                    <li class="nav-item submenu">
+                        <a class="nav-link active show" id="pills-home-tab-icon" data-toggle="pill"
+                            href="#pills-home-icon" role="tab" aria-controls="pills-home-icon" aria-selected="false">
+                            <i class="flaticon-user-4"></i>
+                            Personal Information
+                        </a>
+                    </li>
+                    <li class="nav-item submenu">
+                        <a class="nav-link" id="pills-contact-tab-icon" data-toggle="pill" href="#pills-contact-icon"
+                            role="tab" aria-controls="pills-contact-icon" aria-selected="true">
+                            <i class="flaticon-clock-1"></i>
+                            Activity
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content mt-2 mb-3" id="pills-with-icon-tabContent">
+                    <div class="tab-pane fade active show" id="pills-home-icon" role="tabpanel"
+                        aria-labelledby="pills-home-tab-icon">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted" width='23%'>Username</td>
+                                        <td class="text-muted">{{ object.user.username }}</td>
+                                    </tr>
+                                    {% if object.user == request.user %}
+                                    {% if user.emailaddress_set.all %}
+                                    <tr>
+                                        <td class="text-muted" width='23%'>email</td>
+                                        <td class="text-muted">
+                                            {% for emailaddress in user.emailaddress_set.all %}
+                                            {{ emailaddress.email }}
+                                            {% if emailaddress.verified %}
+                                            <span class="verified text-success">{% trans "[Verified]" %}</span>
+                                            {% else %}
+                                            <span class="unverified text-danger">{% trans "[Not Verified]" %}</span>
+                                            {% endif %}
+                                            {% if emailaddress.primary %}
+                                            <span class="primary text-primary">{% trans "[Primary]" %}</span>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% if object.user.first_name %}
+                                    <tr>
+                                        <td class="text-muted" width='23%'>First Name</td>
+                                        <td class="text-muted">{{ object.user.first_name }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if object.user.last_name %}
+                                    <tr>
+                                        <td class="text-muted" width='23%'>Last Name</td>
+                                        <td class="text-muted">{{ object.user.last_name }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if object.gender %}
+                                    <tr>
+                                        <td class="text-muted" width='23%'>Gender</td>
+                                        <td class="text-muted">{{ object.gender }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if object.blood_group %}
+                                    <tr>
+                                        <td class="text-muted" width='23%'>Blood Group</td>
+                                        <td class="text-muted">{{ object.blood_group }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if object.about %}
+                                    <tr>
+                                        <td class="text-muted" width='23%'>About</td>
+                                        <td class="text-muted">{{ object.about|safe|escape|linebreaks }}</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact-icon" role="tabpanel"
+                        aria-labelledby="pills-contact-tab-icon">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted" width='23%'>Date Joined</td>
+                                        <td class="text-muted">{{ object.user.date_joined }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted" width='23%'>Last Logged In</td>
+                                        <td class="text-muted">{{ object.user.last_login|timesince }} <span
+                                                class="text-muted">ago</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted" width='23%'>Profile Updated At</td>
+                                        <td class="text-muted">{{ object.updated_at|timesince }} <span
+                                                class="text-muted">ago</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
