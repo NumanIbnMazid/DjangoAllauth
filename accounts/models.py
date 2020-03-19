@@ -87,7 +87,10 @@ class UserProfile(models.Model):
             if field.name == 'x':
                 return (field.name, self.x.title)
             else:
-                return (field.name, field.value_from_object(self))
+                value = "-"
+                if not field.value_from_object(self) == None and not field.value_from_object(self) == "":
+                    value = field.value_from_object(self)
+                return (field.name, value)
         return [get_dynamic_fields(field) for field in self.__class__._meta.fields]
 
 

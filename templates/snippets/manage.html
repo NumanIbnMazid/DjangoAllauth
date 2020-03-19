@@ -21,15 +21,66 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form role="form" method="POST" data-toggle="validator">
+            <form role="form" method="POST" enctype="multipart/form-data" data-toggle="validator" id="manage-form">
                 {% csrf_token %}
                 <div class="card-body">
                     {% include 'snippets/form.html' %}
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            function now() {
+                                var d = new Date();
+                                var month = d.getMonth() + 1;
+                                var day = d.getDate();
+                                var output = d.getFullYear() + "/" +
+                                    (month < 10 ? '0' : '') + month + "/" +
+                                    (day < 10 ? '0' : '') + day;
+                                return output;
+                            };
+
+                            function next() {
+                                var d = new Date();
+                                var month = 12;
+                                var day = 31;
+                                var output = d.getFullYear() + "/" +
+                                    (month < 10 ? '0' : '') + month + "/" +
+                                    (day < 10 ? '0' : '') + day;
+                                return output;
+                            };
+                            $('#datetimepicker_DOB').datetimepicker({
+                                format: 'Y-m-d',
+                                maxDate: now(),
+                                timepicker:false,
+                            });
+                            $('#datetimepicker1').datetimepicker({
+                                format: 'Y-m-d H:i',
+                                // timepicker:true,
+                                minDate: now(),
+                                maxDate: next(),
+                                // datepicker:false,
+                                // allowTimes:[
+                                // '11:00', '13:00', '15:00', 
+                                // '16:00', '18:00', '19:00', '20:00'
+                                // ]
+                            });
+                            $('#datetimepicker2').datetimepicker({
+                                format: 'Y-m-d H:i',
+                                // timepicker:true,
+                                minDate: now(),
+                                maxDate: next(),
+                                // datepicker:false,
+                                // allowTimes:[
+                                // '11:00', '13:00', '15:00', 
+                                // '16:00', '18:00', '19:00', '20:00'
+                                // ]
+                            });
+                        });
+                    </script>
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary btn-md">
                         Submit
                     </button>
                 </div>

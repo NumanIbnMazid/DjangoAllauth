@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head_title %}
+{% block page_title %}
+{{ page_title }}
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table id="DataTable" class="cell-border hover table-bordered table-hover text-center" style="width:100%">
+        <thead>
+            <tr class="text-muted">
+                <th>#</th>
+                {% for key, value in fields.items %}
+                {% if key != 'id' and key != 'slug' and key != 'created_at' and key != 'updated_at' %}
+                <th>{{ value|title }}</th>
+                {% endif %}
+                {% endfor %}
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in object_list %}
+            <tr class="text-dark">
+                <th scope="row">{{ forloop.counter }}</th>
+
+                {% for label, value in object.get_fields %}
+
+                {% if label != 'id' and label != 'slug' and label != 'created_at' and label != 'updated_at' %}
+                <td>{{ value }}</td>
+                {% endif %}
+
+                {% endfor %}
+
+                <td>
+                    <a href="{% url update_url id=object.id %}" class="btn btn-primary btn-xs text-deco-none">
+                        <span class="">
+                            Edit
+                        </span>
+                    </a>
+
+                    <button type="button"
+                        class="btn btn-danger btn-xs text-deco-none bg-c-danger m-1 js_delete_{{namespace}}"
+                        value="{{object.id}}" data-toggle="modal" data-target="#modal-delete-{{namespace}}">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="{{fields_count}} - 1" class="text-center">
+                    <div class="alert alert-warning">
+                        No item found!
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="text-center text-muted">
+                <th>#</th>
+                {% for key, value in fields.items %}
+                {% if key != 'id' and key != 'slug' and key != 'created_at' and key != 'updated_at' %}
+                <th>{{ value|title }}</th>
+                {% endif %}
+                {% endfor %}
+                <th>Action</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+    $(document).ready(function () {
+        $('#DataTable').DataTable({
+            destroy: true,
+            "ordering": false,
+            "scrollCollapse": true,
+            "stateSave": true,
+            "pagingType": "full_numbers",
+        });
+    });
+</script>
+
+{% endblock %}

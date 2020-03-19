@@ -1,3 +1,4 @@
+{% url 'account_logout' as logout_url %}
 <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -11,7 +12,7 @@
             </div>
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
-                <form method="POST" action="{% url 'account_logout' %}">
+                <form method="POST" action="{{ logout_url }}">
                     {% csrf_token %}
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger">Yes, Logout</button>
